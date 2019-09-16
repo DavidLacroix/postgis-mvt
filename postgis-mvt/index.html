@@ -1,55 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset='utf-8' />
-<title>Display a map with a custom style</title>
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
-<style>
-body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
-</style>
-</head>
-<body>
- 
-<div id='map'></div>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGxhY3JvaXgiLCJhIjoiY2swbXdmMzZsMDdueTNjcXp3YWxydm15cCJ9.e1WDw-nSDWkkFTNdBjMHOw';
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/dark-v10',
-center: [2.336275,48.872311],
-zoom: 14 
-});
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-map.on('load', function () {
-	map.addLayer({
-		"id": "home",
-		"type": "circle",
-		"source": {
-			"type": "geojson",
-			"data": {
-				"type": "FeatureCollection",
-				"features": [{
-				"type": "Feature",
-					"geometry": {
-					"type": "Point",
-					"coordinates": [2.336275,48.872311]
-					}
-				}]
-			}
-		},
-		'paint': {
-			'circle-radius': {
-				'base': 4,
-				'stops': [[12, 4], [22, 280]]
-			},
-			'circle-color': 'red',
-		}
-	});
-});
-</script>
- 
-</body>
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <section>
+                    <h2>Postgis MVT</h2>
+                </section>
+				<section data-background-iframe=map.html data-background-interactive>
+                    <div style="position: absolute; width: 60%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 20px; font-size: 20px; text-align: left;">
+                        <h2 style="color: #000">The baddest slide</h2>
+                        <p>Since map speaks louder than words...</p>
+                    </div>
+                </section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+				],
+			});
+		</script>
+	</body>
 </html>
