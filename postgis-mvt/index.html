@@ -22,6 +22,33 @@ style: 'mapbox://styles/mapbox/dark-v10', //hosted style id
 center: [2.3341906,48.872356], // starting position
 zoom: 14 // starting zoom
 });
+
+map.on('load', function () {
+	map.addLayer({
+		"id": "home",
+		"type": "circle",
+		"source": {
+			"type": "geojson",
+			"data": {
+				"type": "FeatureCollection",
+				"features": [{
+				"type": "Feature",
+					"geometry": {
+					"type": "Point",
+					"coordinates": [2.3341906,48.872356]
+					}
+				}]
+			}
+		},
+		'paint': {
+			'circle-radius': {
+				'base': 4,
+				'stops': [[12, 4], [22, 280]]
+			},
+			'circle-color': 'red',
+		}
+	});
+});
 </script>
  
 </body>
