@@ -17,11 +17,11 @@ body { margin:0; padding:0; }
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGxhY3JvaXgiLCJhIjoiY2swbXdmMzZsMDdueTNjcXp3YWxydm15cCJ9.e1WDw-nSDWkkFTNdBjMHOw';
 var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/dark-v10',
-center: [2.341884,48.854785],
-zoom: 14,
-pitch: 60,
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [2.341884,48.854785],
+    zoom: 14,
+    pitch: 60,
 });
 
 map.on('load', function () {
@@ -43,8 +43,8 @@ map.on('load', function () {
 		},
 		'paint': {
 			'circle-radius': {
-				'base': 4,
-				'stops': [[12, 4], [22, 280]]
+				'base': 8,
+				'stops': [[12, 8], [22, 400]]
 			},
 			'circle-color': 'red',
 		}
