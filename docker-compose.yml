@@ -9,7 +9,7 @@ services:
       env_file:
         - .env 
   web:
-     #restart: always
+     restart: always
      build: ./tile-server
      ports:
        - "8000:8000"
@@ -20,7 +20,6 @@ services:
      links:
        - postgres:postgres
      env_file: .env
-     #command: gunicorn -w 2 -b :8000 app
 
 volumes:
   pgdata:
