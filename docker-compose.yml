@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+      image: "mdillon/postgis:latest"
+      volumes:
+        - "pgdata:/var/lib/postgresql/data" 
+      ports:
+        - "5555:5432" 
+      env_file:
+        - .env 
+  web:
+     #restart: always
+     build: ./tile-server
+     ports:
+       - "8000:8000"
+     expose:
+       - 8000
+     depends_on:
+       - postgres
+     links:
+       - postgres:postgres
+     env_file: .env
+     #command: gunicorn -w 2 -b :8000 app
+
+volumes:
+  pgdata:
