@@ -1,18 +1,20 @@
 version: '3'
 services:
   postgres:
+      container_name: postgres-master 
       image: "mdillon/postgis:latest"
       volumes:
         - "pgdata:/var/lib/postgresql/data" 
       ports:
-        - "5555:5432" 
+        - "5432:5432" 
       env_file:
         - .env 
   web:
+     container_name: tile-master
      restart: always
      build: ./tile-server
      ports:
-       - "8000:8000"
+       - "80:8000"
      expose:
        - 8000
      depends_on:
