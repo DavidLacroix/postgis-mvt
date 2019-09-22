@@ -36,7 +36,7 @@ psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_
 
 # Use view to allow a table to be displayed
 psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c """
-    DROP VIEW mvt.carreaux_raw_men;
+    DROP VIEW IF EXISTS mvt.carreaux_raw_men;
     CREATE OR REPLACE VIEW mvt.carreaux_raw_men AS
     SELECT ogc_fid as id,
         men::int AS value,
