@@ -12,7 +12,7 @@ body { margin:0; padding:0; }
 </style>
 </head>
 <body>
- 
+
 <div id='map'></div>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGxhY3JvaXgiLCJhIjoiY2swbXdmMzZsMDdueTNjcXp3YWxydm15cCJ9.e1WDw-nSDWkkFTNdBjMHOw';
@@ -25,6 +25,32 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function () {
+
+	map.addLayer({
+		"id": "carreaux_raw_men",
+		"type": "fill-extrusion",
+		"source": {
+			"type": "vector",
+			"tiles": ["http://localhost/carreaux_raw_men/{z}/{x}/{y}?srid=2154"],
+			"minzoom": 6,
+			"maxzoom": 21
+		},
+		'paint': {
+			'fill-extrusion-color': [
+				"interpolate",
+				["linear"],
+				["get", "value"],
+				0,
+				"#383CFF",
+				1000,
+				"#F726BB"
+			],
+			'fill-extrusion-height': ["get", "value"],
+			'fill-extrusion-opacity': .6
+		},
+		"source-layer": "carreaux_raw_men",
+	});
+
 	map.addLayer({
 		"id": "home",
 		"type": "circle",
@@ -51,6 +77,5 @@ map.on('load', function () {
 	});
 });
 </script>
- 
 </body>
 </html>

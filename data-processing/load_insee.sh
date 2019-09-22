@@ -19,6 +19,7 @@ wget "https://www.insee.fr/fr/statistiques/fichier/4176290/Filosofi2015_carreaux
 unzip $WORKDIR/Filosofi2015_carreaux_200m_shp.zip -d $WORKDIR
 7z e $WORKDIR/Filosofi2015_carreaux_200m_metropole_shp.7z -o$WORKDIR
 
+# Load shapefile in postgres
 ogr2ogr --config PG_USE_COPY YES \
 	-gt 1000 \
 	-progress \
@@ -28,3 +29,11 @@ ogr2ogr --config PG_USE_COPY YES \
 	-nlt MULTIPOLYGON \
 	$WORKDIR/Filosofi2015_carreaux_200m_metropole.shp
 
+# Use view to allow a table to be displayed
+psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c """
+    CREATE OR REPLACE VIEW mvt.carreaux_raw_men AS
+    SELECT ogc_fid as id,
+        men::int AS value,
+        wkb_geometry as geom
+    from public.carreaux_raw
+"""
