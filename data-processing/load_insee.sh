@@ -29,11 +29,17 @@ ogr2ogr --config PG_USE_COPY YES \
 	-nlt MULTIPOLYGON \
 	$WORKDIR/Filosofi2015_carreaux_200m_metropole.shp
 
+# Initialise a schema to store visualisation tables
+psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c """
+    CREATE SCHEMA IF NOT EXISTS mvt;
+"""
+
 # Use view to allow a table to be displayed
 psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c """
+    DROP VIEW mvt.carreaux_raw_men;
     CREATE OR REPLACE VIEW mvt.carreaux_raw_men AS
     SELECT ogc_fid as id,
         men::int AS value,
         wkb_geometry as geom
-    from public.carreaux_raw
+    from public.carreaux_raw;
 """
