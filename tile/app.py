@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 TILE_SCHEMA = 'mvt'
 DB_PARAMETERS = {
-    'host': 'tile-master',
+    'host': 'postgres-master',
     'port': 5432,
     'database': 'postgres',
     'user': 'postgres',
@@ -31,8 +31,8 @@ def generic_mvt(layer, z, x, y):
     srid = int(request.args.get('srid', 4326))
     tile = _load_tile(layer, x, y, z, srid=srid)
     response = make_response(tile)
-    response.headers['Content-Type'] = "application/octet-stream"
-    response.headers['Access-Control-Allow-Origin'] = "*"
+    response.headers.add('Content-Type', 'application/octet-stream')
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -45,7 +45,6 @@ def _load_tile(layer_name, x, y, z, srid=4326):
         FROM (
             SELECT id,
                 value,
-                extrude,
                 ST_AsMVTGeom(
                     -- Geometry from table
                     ST_Transform(t.geom, 3857),
@@ -131,4 +130,4 @@ def _tms2ll(x, y, z):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    app.run(host='0.0.0.0', port=80)

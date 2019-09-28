@@ -1,4 +1,4 @@
-FROM node:lts-stretch
+FROM node:carbon-jessie
 
 ENV WORKDIR /srv/slide
 RUN mkdir -p $WORKDIR

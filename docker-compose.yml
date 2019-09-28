@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
   postgres:
     container_name: postgres-master
@@ -6,21 +6,27 @@ services:
     volumes:
       - "pgdata:/var/lib/postgresql/data"
     ports:
-      - "5432:5432"
+      - "5555:5432"
     env_file:
       - .env
-  back:
+    networks:
+      - global
+  tile:
     container_name: tile-master
     restart: always
-    build: ./tile-server
+    build: ./tile
+    volumes:
+      - ./tile/:/srv/tile/
     ports:
-      - "8001:8000"
+      - "8001:8001"
     depends_on:
       - postgres
     links:
       - postgres:postgres
     env_file: .env
-  front:
+    networks:
+      - global
+  slide:
     container_name: slide-master
     restart: always
     build: ./slide
@@ -31,6 +37,12 @@ services:
     ports:
       - "8000:8000"
     env_file: .env
+    networks:
+      - global
 
 volumes:
   pgdata:
+
+networks:
+  global:
+    name: global-network

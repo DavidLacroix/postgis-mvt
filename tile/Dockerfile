@@ -7,10 +7,10 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean all
 
-ENV WORKDIR /srv/tile-server
+ENV WORKDIR /srv/tile
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 ADD . .
 RUN pip install --upgrade pip -r requirements.txt
 
-ENTRYPOINT gunicorn -b 0.0.0.0:8000 app:app
+ENTRYPOINT gunicorn -b 0.0.0.0:8001 app:app
