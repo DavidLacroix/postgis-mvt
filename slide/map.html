@@ -15,7 +15,7 @@ body { margin:0; padding:0; }
 
 <div id='map'></div>
 <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGxhY3JvaXgiLCJhIjoiY2swbXdmMzZsMDdueTNjcXp3YWxydm15cCJ9.e1WDw-nSDWkkFTNdBjMHOw';
+mapboxgl.accessToken = '';
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
@@ -31,7 +31,7 @@ map.on('load', function () {
 		"type": "fill-extrusion",
 		"source": {
 			"type": "vector",
-			"tiles": ["http://localhost/carreaux_raw_men/{z}/{x}/{y}?srid=2154"],
+			"tiles": ["http://localhost:8001/carreaux_raw_men/{z}/{x}/{y}?srid=2154"],
 			"minzoom": 6,
 			"maxzoom": 21
 		},
