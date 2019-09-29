@@ -25,15 +25,207 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-                <section>
-                    <h2>Postgis MVT</h2>
+                <section style="text-align: left;">
+					<h1>Welcome.</h1>
+					<hr>
+					<p >
+						</br>
+						<small><strong>I'm David Lacroix,</strong></small></br>
+						<small>GIS engineer <a href="https://www.meilleursagents.com/">@MeilleursAgents</a></small></br>
+					</p>
                 </section>
-				<section data-background-iframe=map.html data-background-interactive>
-                    <div style="position: absolute; width: 60%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 20px; font-size: 20px; text-align: left;">
-                        <h2 style="color: #000">The baddest slide</h2>
-                        <p>Since map speaks louder than words...</p>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							### I have great geographic data
+							---
+							### ...
+							---
+							### I want to make it shine
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							### The use case
+							fetch &#8614; process &#8614; <span class="fragment highlight-red">share</span> &#8614; <span class="fragment highlight-red">display</span>
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							### The constraints
+							* volume
+							* coverage
+							* flexibility
+							* simplicity
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<h3>How is it being done ?</h3>
+					<section>
+						  <small>
+							<img src="resource/geoportail-cadastre-2.png" width="800"/></br>
+							WMTS + IGN js api <a href="https://www.geoportail.gouv.fr/">@Geoportail</a></br>
+						  </small>
+					</section>
+					<section>
+						  <small>
+							<img src="resource/etalab-dvf-2.png" width="800"/></br>
+							Geojson + Mapboxgl.js <a href="https://app.dvf.etalab.gouv.fr/">@Etalab</a>
+						  </small>
+					</section>
+					<section>
+						  <small>
+							<img src="resource/koumoul-cadastre-2.png" width="800"/></br>
+							Vector tile + Mapboxgl.js <a href="https://koumoul.com/s/cadastre/">@Koumoul</a>
+						  </small>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>the realm of vector tiles</h3>
+						<img src="resource/vector_tile.png" width="800"/></br>
+                        <small>Source <a href="https://www.researchgate.net/publication/264244246_Toward_Web_Mapping_with_Vector_Data">Gaffuri (2012)</a></small>
+					</section>
+					<section>
+						<h3>light, fast and adaptable</h3>
+                        <p>
+                            <img src="resource/vector_tile2.png" width="500"/></td></br>
+                            <small>Source <a href="https://www.mapzen.com/">Mapzen</a></small>
+                        </p>
+					</section>
+					<section>
+					  <h3>a great future ahead</h3>
+					  <img src="resource/ogc-pilot.jpg" width="600"/></br>
+                      <small><a href="https://www.opengeospatial.org/projects/initiatives/vtp2">OGC - Vector Tiles Pilot</a></small>
+					</section>
+				</section>
+				<section>
+					<section>
+					  <h3>What we are going to do</h3>
+					  <small>
+						 <table>
+							<tr>
+							   <td align="center">Postgres<br/><img src="resource/postgres.png" width="150"/></td>
+							   <td align="center">&#8614;</td>
+							   <td align="center">Flask<br/><img src="resource/flask.png" width="150"/></td>
+							   <td align="center">&#8614;</td>
+							   <td align="center">MapboxGL<br/><img src="resource/mapbox.png" width="150"/></td>
+							</tr>
+						 </table>
+					  </small>
+				
+					  <p><a>https://github.com/DavidLacroix/postgis-mvt</a></p>
+					</section>
+					<section>
+					  <h3>your only friend</h3>
+					  <img src="resource/postgis.png" width="300"/></br>
+                      <small>Find more information in that great <a href="https://gisforthought.com/projects/postgis_tutorial/introduction.html">tutorial</a></small>
+					</section>
+					<section>
+					  <h3>a calf on steroid</h3>
+                      <ul>
+                        <li>2.4.0: Introduction of <a href="https://postgis.net/docs/ST_AsMVT.html">ST_AsMVT()</a></li>
+                        <li>2.5.0: Parallel implementation</li>
+                        <li>3.0.0: Performance bump + <a href="https://postgis.net/docs/manual-dev/ST_TileEnvelope.html">ST_TileEnvelope()</a></li>
+                      </ul>
+					</section>
+					<section>
+					  <h3>one less middleware</h3>
+					  <img src="resource/geoserver.png" width="600"/></br>
+                      your web application is your map server
+					</section>
+					<section>
+					  <h3>#MadeWithMapbox</h3>
+                        <img src="resource/mapbox_factory.gif" width="400"/>
+					</section>
+				</section>
+			
+				<section data-background-iframe=map_empty.html data-background-interactive>
+					<div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+						<h3 style="color: #000">a map speaks louder than words</h3>
+						<small>Think of it as an app served by our Flask server.</small>
+					</div>
+				</section>
+				<section data-background-iframe=map_geojson.html data-background-interactive>
+					<div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+						<h3 style="color: #000">We could add static data</h3>
+						<pre><code data-trim data-noescape class="hljs">
+							map.addLayer({
+							  "id": "haussmann",
+							  "type": "fill",
+							  "source": {
+							    "type": "geojson",
+							    "data": "resource/haussmann.geojson"
+							  },
+							  'paint': {
+							    'fill-color': '#088',
+							    'fill-opacity': 0.8
+							  }
+							});                
+						</code></pre>
+					</div>
+				</section>
+				<section data-background-iframe=map_debug.html data-background-interactive>
+                    <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                        <h3 style="color: #000">But tiles are dynamic</h3>
+                        <pre><code data-trim data-noescape class="python">
+                            http://tile-server/my-layer/{z}/{x}/{y}
+                            # z: zoom level (0-22)
+                            # x: tilegrid X coordinate 
+                            # y: tilegrid Y coordinate 
+                        </code></pre>
                     </div>
                 </section>
+                <section>
+                    <h3>flask: serving tiles</h3>
+                    <pre><code style="overflow: hidden;" data-trim data-noescape class="python" data-line-numbers="4-11">
+                    TILE_SCHEMA = 'mvt'
+                    DB_PARAMETERS = {'host': 'postgres-master','port': 5432,'database': 'postgres','user': 'postgres'}
+
+                    @app.route('/&lt;string:layer&gt;/&lt;int:z&gt;/&lt;int:x&gt;/&lt;int:y&gt;', methods=['GET'])
+                    def generic_mvt(layer, z, x, y):
+                        srid = int(request.args.get('srid', 4326))
+                        tile = _load_tile(layer, x, y, z, srid=srid)
+                        response = make_response(tile)
+                        response.headers.add('Content-Type', 'application/octet-stream')
+                        response.headers.add('Access-Control-Allow-Origin', '*')
+                        return response
+
+                    
+                    def _load_tile(layer_name, x, y, z, srid=4326):
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>flask: fetching tiles</h3>
+                    <pre><code data-trim data-noescape class="python" data-line-numbers="4-11">
+                    # Some more stuff goes here
+                    </code></pre>
+                </section>
+				<section data-background-iframe=map_empty.html data-background-interactive>
+                    <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                        <h3 style="color: #000">add custom tile layer</h3>
+                        <pre><code data-trim data-noescape class="hljs">
+                            map.addLayer({
+                              "id": "my-layer",
+                              "type": "fill",
+                              "source": {
+                                "type": "vector",
+                                "tiles": ["http://tile-server/my-layer/{z}/{x}/{y}"],
+                                "minzoom": 10,
+                                "maxzoom": 21
+                              },
+                              "source-layer": "my-layer",
+                              'paint': {
+                                'fill-color': '#088',
+                                'fill-opacity': 0.8
+                              },
+                            });                
+                        </code></pre>
+                    </div>
+				</section>
+
+
 			</div>
 		</div>
 
@@ -44,6 +236,10 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+                transition: 'slide',
+                backgroundTransition: 'fade',
+                transitionSpeed: 'slow',
+                preloadIframes: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
