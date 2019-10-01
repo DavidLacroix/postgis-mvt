@@ -1,179 +1,208 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+        <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/monokai.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
                 <section style="text-align: left;">
-					<h1>Welcome.</h1>
-					<hr>
-					<p >
-						</br>
-						<small><strong>I'm David Lacroix,</strong></small></br>
-						<small>GIS engineer <a href="https://www.meilleursagents.com/">@MeilleursAgents</a></small></br>
-					</p>
+                    <h1>Welcome.</h1>
+                    <hr>
+                    <p >
+                        </br>
+                        <small><strong>I'm David Lacroix,</strong></small></br>
+                        <small>Geo data engineer <a href="https://www.meilleursagents.com/">@MeilleursAgents</a></small></br>
+                    </p>
                 </section>
-				<section>
-					<section data-markdown>
-						<textarea data-template>
-							### I have great geographic data
-							---
-							### ...
-							---
-							### I want to make it shine
-						</textarea>
-					</section>
-					<section data-markdown>
-						<textarea data-template>
-							### The use case
-							fetch &#8614; process &#8614; <span class="fragment highlight-red">share</span> &#8614; <span class="fragment highlight-red">display</span>
-						</textarea>
-					</section>
-					<section data-markdown>
-						<textarea data-template>
-							### The constraints
-							* volume
-							* coverage
-							* flexibility
-							* simplicity
-						</textarea>
-					</section>
-				</section>
-				<section>
-					<h3>How is it being done ?</h3>
-					<section>
-						  <small>
-							<img src="resource/geoportail-cadastre-2.png" width="800"/></br>
-							WMTS + IGN js api <a href="https://www.geoportail.gouv.fr/">@Geoportail</a></br>
-						  </small>
-					</section>
-					<section>
-						  <small>
-							<img src="resource/etalab-dvf-2.png" width="800"/></br>
-							Geojson + Mapboxgl.js <a href="https://app.dvf.etalab.gouv.fr/">@Etalab</a>
-						  </small>
-					</section>
-					<section>
-						  <small>
-							<img src="resource/koumoul-cadastre-2.png" width="800"/></br>
-							Vector tile + Mapboxgl.js <a href="https://koumoul.com/s/cadastre/">@Koumoul</a>
-						  </small>
-					</section>
-				</section>
-				<section>
-					<section>
-						<h3>the realm of vector tiles</h3>
-						<img src="resource/vector_tile.png" width="800"/></br>
+                <section>
+                    <section data-markdown>
+                        <textarea data-template>
+                            ### I have great geographic data
+                            ---
+                            ### ...
+                            ---
+                            ### I want to make it shine
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                            ### The use case
+                            fetch &#8614; process &#8614; <span class="fragment highlight-red">share</span> &#8614; <span class="fragment highlight-red">display</span>
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                            ### The constraints
+                            * volume
+                            * coverage
+                            * flexibility
+                            * simplicity
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h3>How is it being done ?</h3>
+                    <section>
+                          <small>
+                            <img src="resource/geoportail-cadastre-2.png" width="800"/></br>
+                            WMTS + IGN js api <a href="https://www.geoportail.gouv.fr/">@Geoportail</a></br>
+                          </small>
+                    </section>
+                    <section>
+                          <small>
+                            <img src="resource/etalab-dvf-2.png" width="800"/></br>
+                            Geojson + Mapboxgl.js <a href="https://app.dvf.etalab.gouv.fr/">@Etalab</a>
+                          </small>
+                    </section>
+                    <section>
+                          <small>
+                            <img src="resource/koumoul-cadastre-2.png" width="800"/></br>
+                            Vector tile + Mapboxgl.js <a href="https://koumoul.com/s/cadastre/">@Koumoul</a>
+                          </small>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>the realm of vector tiles</h3>
+                        <img src="resource/vector_tile.png" width="800"/></br>
                         <small>Source <a href="https://www.researchgate.net/publication/264244246_Toward_Web_Mapping_with_Vector_Data">Gaffuri (2012)</a></small>
-					</section>
-					<section>
-						<h3>light, fast and adaptable</h3>
+                    </section>
+                    <section>
+                        <h3>light, fast and adaptable</h3>
                         <p>
                             <img src="resource/vector_tile2.png" width="500"/></td></br>
                             <small>Source <a href="https://www.mapzen.com/">Mapzen</a></small>
                         </p>
-					</section>
-					<section>
-					  <h3>a great future ahead</h3>
-					  <img src="resource/ogc-pilot.jpg" width="600"/></br>
+                    </section>
+                <section>
+                <h3>a standard architecture</h3>
+                <svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+                     <g>
+                          <rect stroke="#fff" id="svg_8" height="125" width="230" y="14.4375" x="17.5" stroke-opacity="null" stroke-width="1.5" fill="#FFE991"/>
+                          <text font-weight="bold" stroke="#000" transform="matrix(1.506858944892883,0,0,1.7407407760620117,-150.65194499306367,-125.91667014360432) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_9" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">TileServer</text>
+                          <rect id="svg_10" height="125" width="230" y="15.4375" x="335.5" stroke-opacity="null" stroke-width="1.5" stroke="#fff" fill="#4EB788"/>
+                          <rect stroke="#fff" id="svg_11" height="125" width="551.00001" y="261.4375" x="16.5" stroke-opacity="null" stroke-width="1.5" fill="#FFA393"/>
+                          <path stroke="#fff" transform="rotate(-90.4666976928711 288.5869140625,77.41848754882814) " id="svg_17" d="m274.08692,77.34016l14.5,-32.55788l14.49999,32.55788l-7.25,0l0,32.71454l-14.49999,0l0,-32.71454l-7.25,0z" stroke-opacity="null" stroke-width="1.5" fill="#ffffff"/>
+                          <path stroke="#fff" transform="rotate(-179.97854614257812 458.1435546875,199.86813354492188) " id="svg_19" d="m433.64547,199.75965l24.49807,-45.09314l24.49806,45.09314l-12.24904,0l0,45.31011l-24.49806,0l0,-45.31011l-12.24904,0z" stroke-opacity="null" stroke-width="1.5" fill="#ffffff"/>
+                          <path stroke="#fff" transform="rotate(-179.97854614257812 143.1435546875,197.86813354492185) " id="svg_22" d="m118.64547,197.75965l24.49807,-45.09314l24.49806,45.09314l-12.24903,0l0,45.31011l-24.49806,0l0,-45.31011l-12.24904,0z" stroke-opacity="null" stroke-width="1.5" fill="#ffffff"/>
+                          <text font-weight="bold" stroke="#000" transform="matrix(1.5068589448928833,0,0,1.7407407760620117,203.34805500693633,-124.91667014360435) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_23" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">WebApp</text>
+                          <text style="cursor: move;" font-weight="bold" stroke="#000" transform="matrix(1.506858944892883,0,0,1.7407407760620117,32.348055006936335,124.08332985639568) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_24" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">Postgis</text>
+                         </g>
+                </svg>   
+            </section>
+                    <section>
+                      <h3>a bright future ahead</h3>
+                      <img src="resource/ogc-pilot.jpg" width="600"/></br>
                       <small><a href="https://www.opengeospatial.org/projects/initiatives/vtp2">OGC - Vector Tiles Pilot</a></small>
-					</section>
-				</section>
-				<section>
-					<section>
-					  <h3>What we are going to do</h3>
-					  <small>
-						 <table>
-							<tr>
-							   <td align="center">Postgres<br/><img src="resource/postgres.png" width="150"/></td>
-							   <td align="center">&#8614;</td>
-							   <td align="center">Flask<br/><img src="resource/flask.png" width="150"/></td>
-							   <td align="center">&#8614;</td>
-							   <td align="center">MapboxGL<br/><img src="resource/mapbox.png" width="150"/></td>
-							</tr>
-						 </table>
-					  </small>
-				
-					  <p><a>https://github.com/DavidLacroix/postgis-mvt</a></p>
-					</section>
-					<section>
-					  <h3>your only friend</h3>
-					  <img src="resource/postgis.png" width="300"/></br>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                      <h3>What we are going to do</h3>
+                      <small>
+                         <table>
+                            <tr>
+                               <td align="center">Postgres<br/><img src="resource/postgres.png" width="150"/></td>
+                               <td align="center">&#8614;</td>
+                               <td align="center">Flask<br/><img src="resource/flask.png" width="150"/></td>
+                               <td align="center">&#8614;</td>
+                               <td align="center">MapboxGL<br/><img src="resource/mapbox.png" width="150"/></td>
+                            </tr>
+                         </table>
+                      </small>
+               
+                      <p><a>https://github.com/DavidLacroix/postgis-mvt</a></p>
+                    </section>
+                    <section>
+                      <h3>your only friend</h3>
+                      <img src="resource/postgis.png" width="300"/></br>
                       <small>Find more information in that great <a href="https://gisforthought.com/projects/postgis_tutorial/introduction.html">tutorial</a></small>
-					</section>
-					<section>
-					  <h3>a calf on steroid</h3>
+                    </section>
+                    <section>
+                      <h3>a calf on steroid</h3>
                       <ul>
                         <li>2.4.0: Introduction of <a href="https://postgis.net/docs/ST_AsMVT.html">ST_AsMVT()</a></li>
                         <li>2.5.0: Parallel implementation</li>
                         <li>3.0.0: Performance bump + <a href="https://postgis.net/docs/manual-dev/ST_TileEnvelope.html">ST_TileEnvelope()</a></li>
                       </ul>
-					</section>
-					<section>
-					  <h3>one less middleware</h3>
-					  <img src="resource/geoserver.png" width="600"/></br>
-                      your web application is your map server
-					</section>
-					<section>
-					  <h3>#MadeWithMapbox</h3>
+                    </section>
+            <section>
+            <h3>one less middleware</h3>
+            <svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+                 <g>
+                      <rect stroke="#fff" id="svg_8" height="125" width="230" y="14.4375" x="17.5" stroke-opacity="null" stroke-width="1.5" fill="#FFE991"/>
+                      <text font-weight="bold" stroke="#000" transform="matrix(1.506858944892883,0,0,1.7407407760620117,-150.65194499306367,-125.91667014360432) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_9" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">TileServer</text>
+                      <rect id="svg_10" height="125" width="230" y="15.4375" x="335.5" stroke-opacity="null" stroke-width="1.5" stroke="#fff" fill="#4EB788"/>
+                      <rect stroke="#fff" id="svg_11" height="125" width="551.00001" y="261.4375" x="16.5" stroke-opacity="null" stroke-width="1.5" fill="#FFA393"/>
+                      <path stroke="#fff" transform="rotate(-179.97854614257812 458.1435546875,199.86813354492188) " id="svg_19" d="m433.64547,199.75965l24.49807,-45.09314l24.49806,45.09314l-12.24904,0l0,45.31011l-24.49806,0l0,-45.31011l-12.24904,0z" stroke-opacity="null" stroke-width="1.5" fill="#ffffff"/>
+                      <text font-weight="bold" stroke="#000" transform="matrix(1.5068589448928833,0,0,1.7407407760620117,203.34805500693633,-124.91667014360435) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_23" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">WebApp</text>
+                      <text style="cursor: move;" font-weight="bold" stroke="#000" transform="matrix(1.506858944892883,0,0,1.7407407760620117,32.348055006936335,124.08332985639568) " xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="19" id="svg_24" y="120.4375" x="132.5" stroke-opacity="null" stroke-width="0" fill="#000000">Postgis</text>
+                    <path fill="#FF3333" stroke="#000" stroke-width="1.5" d="m65.2725,77.6701l0,0c0,-42.52569 34.47411,-76.99979 76.99992,-76.99979l0,0c20.42193,0 40.00738,8.11248 54.44723,22.5528c14.44043,14.44032 22.55284,34.02563 22.55284,54.44699l0,0c0,42.52621 -34.47386,77.00008 -77.00007,77.00008l0,0c-42.52581,0 -76.99992,-34.47387 -76.99992,-77.00008l-0.00001,0l0.00001,0zm124.33747,34.44587l0,0c16.95285,-23.29837 14.43285,-55.46806 -5.94125,-75.84188c-20.37411,-20.37399 -52.54381,-22.89399 -75.84159,-5.94097l81.78284,81.78284l0,0.00001zm-94.67464,-68.89104c-16.95297,23.29824 -14.43303,55.46794 5.94096,75.84147c20.37393,20.37411 52.54364,22.8941 75.84142,5.94125l-81.78238,-81.78272l0.00001,0l-0.00001,0z" id="svg_1"/>
+                     </g>
+            </svg>   
+            <p>
+                   your web application is your tile server
+            </p>
+            </section>
+                    <section>
+                      <h3>#MadeWithMapbox</h3>
                         <img src="resource/mapbox_factory.gif" width="400"/>
-					</section>
-				</section>
-			
-				<section data-background-iframe=map_empty.html data-background-interactive>
-					<div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
-						<h3 style="color: #000">a map speaks louder than words</h3>
-						<small>Think of it as an app served by our Flask server.</small>
-					</div>
-				</section>
-				<section data-background-iframe=map_geojson.html data-background-interactive>
-					<div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
-						<h3 style="color: #000">We could add static data</h3>
-						<pre><code data-trim data-noescape class="hljs">
-							map.addLayer({
-							  "id": "haussmann",
-							  "type": "fill",
-							  "source": {
-							    "type": "geojson",
-							    "data": "resource/haussmann.geojson"
-							  },
-							  'paint': {
-							    'fill-color': '#088',
-							    'fill-opacity': 0.8
-							  }
-							});                
-						</code></pre>
-					</div>
-				</section>
-				<section data-background-iframe=map_debug.html data-background-interactive>
+                    </section>
+                </section>
+           
+                <section data-background-iframe=map_empty.html data-background-interactive>
+                    <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                        <h3 style="color: #000">a map speaks louder than words</h3>
+                        <small>Think of it as an app served by our Flask server.</small>
+                    </div>
+                </section>
+                <section data-background-iframe=map_geojson.html data-background-interactive>
+                    <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                        <h3 style="color: #000">We could add static data</h3>
+                        <pre><code data-trim data-noescape class="hljs">
+                            map.addLayer({
+                              "id": "haussmann",
+                              "type": "fill",
+                              "source": {
+                                "type": "geojson",
+                                "data": "resource/haussmann.geojson"
+                              },
+                              'paint': {
+                                'fill-color': '#088',
+                                'fill-opacity': 0.8
+                              }
+                            });               
+                        </code></pre>
+                    </div>
+                </section>
+                <section data-background-iframe=map_debug.html data-background-interactive>
                     <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                         <h3 style="color: #000">But tiles are dynamic</h3>
                         <pre><code data-trim data-noescape class="python">
                             http://tile-server/my-layer/{z}/{x}/{y}
                             # z: zoom level (0-22)
-                            # x: tilegrid X coordinate 
-                            # y: tilegrid Y coordinate 
+                            # x: tilegrid X coordinate
+                            # y: tilegrid Y coordinate
                         </code></pre>
                     </div>
                 </section>
@@ -192,7 +221,7 @@
                         response.headers.add('Access-Control-Allow-Origin', '*')
                         return response
 
-                    
+                   
                     def _load_tile(layer_name, x, y, z, srid=4326):
                     </code></pre>
                 </section>
@@ -202,7 +231,7 @@
                     # Some more stuff goes here
                     </code></pre>
                 </section>
-				<section data-background-iframe=map_empty.html data-background-interactive>
+                <section data-background-iframe=map_empty.html data-background-interactive>
                     <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                         <h3 style="color: #000">add custom tile layer</h3>
                         <pre><code data-trim data-noescape class="hljs">
@@ -220,33 +249,33 @@
                                 'fill-color': '#088',
                                 'fill-opacity': 0.8
                               },
-                            });                
+                            });               
                         </code></pre>
                     </div>
-				</section>
+                </section>
 
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<script src="js/reveal.js"></script>
+        <script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
                 transition: 'slide',
                 backgroundTransition: 'fade',
                 transitionSpeed: 'slow',
                 preloadIframes: true,
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true },
-				],
-			});
-		</script>
-	</body>
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true },
+                ],
+            });
+        </script>
+    </body>
 </html>
