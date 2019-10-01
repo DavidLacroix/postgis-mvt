@@ -15,7 +15,7 @@ body { margin:0; padding:0; }
 
 <div id='map'></div>
 <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGxhY3JvaXgiLCJhIjoiY2sxNHY0NHl2MG05cjNucGZ0eHRxeDRwOSJ9.50MQmmheHVyQWZioBE-I0Q';
+mapboxgl.accessToken = '{{token}}';
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
@@ -24,20 +24,8 @@ var map = new mapboxgl.Map({
     pitch: 0,
 });
 
+map.showTileBoundaries = {{show_tile_boundary}}
 map.on('load', function () {
-    map.addLayer({
-        "id": "haussmann",
-        "type": "fill",
-        "source": {
-            "type": "geojson",
-            "data": "resource/haussmann.geojson"
-        },
-        'paint': {
-            'fill-color': '#088',
-            'fill-opacity': 0.8
-        }
-    });
-
     map.addLayer({
         "id": "home",
         "type": "circle",

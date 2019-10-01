@@ -16,6 +16,7 @@ DB_PARAMETERS = {
     'password': os.environ['POSTGRES_PASSWORD'],
     'cursor_factory': psycopg2.extras.RealDictCursor
 }
+MAPBOX_TOKEN = os.environ['MAPBOX_TOKEN']
 
 
 @app.route("/")
@@ -24,6 +25,17 @@ def index():
         <h1>I shall serve you tiles</h1>
         <img src="https://clevermosaics.com/wp-content/uploads/2018/07/Peel-and-Stick-Tiles-for-Shower-Walls.jpg"/>
     """
+
+
+@app.route("/map_empty")
+def map_empty():
+    debug = 'true' if request.args.get('debug') == 'true' else 'false'
+    return render_template('map_empty.html', token=MAPBOX_TOKEN, show_tile_boundary=debug)
+
+
+@app.route("/map_geojson")
+def map_geojson():
+    return render_template('map_geojson.html', token=MAPBOX_TOKEN)
 
 
 @app.route('/<string:layer>/<int:z>/<int:x>/<int:y>', methods=['GET'])
