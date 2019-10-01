@@ -7,4 +7,4 @@ RUN apt-get update \
 
 ADD . .
 
-ENTRYPOINT ./load_insee.sh
+ENTRYPOINT ./run.sh

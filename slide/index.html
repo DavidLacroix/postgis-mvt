@@ -118,7 +118,7 @@
                 </section>
                 <section>
                     <section>
-                      <h3>What we are going to do</h3>
+                      <h3>our stack</h3>
                       <small>
                          <table>
                             <tr>
@@ -130,8 +130,6 @@
                             </tr>
                          </table>
                       </small>
-               
-                      <p><small><a>https://github.com/DavidLacroix/postgis-mvt</a></small></p>
                     </section>
                     <section>
                       <h3>your only friend</h3>
@@ -173,11 +171,16 @@
                         <img src="resource/mapbox_factory.gif" width="400"/>
                     </section>
                 </section>
+                <section>
+                     <h3>try it out</h3>
+                     <p><pre class="bash" style="text-align: center;"><code>sudo docker-compose up -d</code></pre></p>
+                     <p><small><a href="https://github.com/DavidLacroix/postgis-mvt">https://github.com/DavidLacroix/postgis-mvt</a></small></p>
+                </section>
                 <section> 
                     <section data-background-iframe=http://localhost:8001/map_empty data-background-interactive>
                         <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                             <h3 style="color: #000">a map speaks louder than words</h3>
-                            This is our app served by the Flask server:
+                            This is our webapp served by the Flask server:
                             <a>http://localhost:8001/map_empty</a>
                         </div>
                     </section>
@@ -206,7 +209,7 @@
                         <div style="position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                             <h3 style="color: #000">But tiles are dynamic</h3>
                             <pre><code data-trim data-noescape class="python">
-                                http://tile-server/my-layer/{z}/{x}/{y}
+                                http://localhost:8001/my-layer/{z}/{x}/{y}
                                 # z: zoom level (0-22)
                                 # x: tilegrid X coordinate
                                 # y: tilegrid Y coordinate

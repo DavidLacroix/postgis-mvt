@@ -11,12 +11,13 @@ services:
       - .env
     networks:
       - global
-  tile:
-    container_name: tile-master
+  webapp:
+    container_name: webapp-master
     restart: always
-    build: ./tile
+    build: ./webapp
+    image: webapp-master
     volumes:
-      - ./tile/:/srv/tile/
+      - ./webapp/:/srv/webapp/
     ports:
       - "8001:8001"
     depends_on:
@@ -26,10 +27,25 @@ services:
     env_file: .env
     networks:
       - global
+  tile-demo-data:
+    container_name: webapp-demo-data-master
+    build: ./webapp/demo-data
+    image: webapp-demo-data-master
+    env_file:
+      - .env
+    networks:
+      - global
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    environment:
+      WAIT_HOSTS: postgres:5432
   slide:
     container_name: slide-master
     restart: always
     build: ./slide
+    image: slide-master
     command: npm start
     volumes:
       - ./slide/:/srv/slide/

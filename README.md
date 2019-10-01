@@ -7,6 +7,7 @@
 ## Getting started
 Add your variables in the `.env` file:
 * postgres password
+* mapbox token 
 
 Then:
 
@@ -15,7 +16,7 @@ Then:
 sudo docker-compose up -b
 ```
 
-### Processing data
+### Processing insee data
 ```sh
 sudo docker build -t data-master data-processing/
 sudo docker run --link=postgres-master --network=global-network --env-file .env -it data-master
