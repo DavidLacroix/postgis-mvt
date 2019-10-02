@@ -35,7 +35,10 @@ psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_
     DROP VIEW IF EXISTS mvt.apur_building;
     CREATE OR REPLACE VIEW mvt.apur_building AS
     SELECT ogc_fid as id,
-        an_const::int AS value,
+        -- totally not accurate (but it'll do)
+        (regexp_match(c_perconst, '[0-9]{4}'))[1]::integer AS value,
+        h_med::integer AS extrude,
         wkb_geometry as geom
-    from public.apur_building_raw;
+    FROM public.apur_building_raw
+    ;
 """

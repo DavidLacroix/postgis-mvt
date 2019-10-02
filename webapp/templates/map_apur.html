@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Display a map with a custom style</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = '{{token}}';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [2.335451,48.872204],
+    zoom: 18,
+    pitch: 0,
+    maxTileCacheSize: 0,
+});
+
+
+map.on('load', function () {
+
+    // Separating data source to render the same data with different style 
+    data_source = {
+        "type": "vector",
+        "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}?srid=4326"],
+        "minzoom": 12,
+        "maxzoom": 21
+    }
+    map.addSource('apur_building', data_source);
+
+    apur_building = {
+        "id": "apur_building",
+        "type": "fill",
+        "source": 'apur_building',
+        'paint': {
+            'fill-color': "#ffab40",
+            'fill-opacity': .7
+        },
+        "source-layer": "apur_building",
+    };
+
+    apur_building_color = {
+        "id": "apur_building_color",
+        "type": "fill",
+        "source": 'apur_building',
+        'paint': {
+            'fill-color': [
+                "interpolate",
+                ["linear"],
+                // Default to 0 if value is null
+                ['number', ["get", "value"], 0],
+                0,
+                "#aaa",
+                1800,
+                "#dd2c00",
+                2010,
+                "#ffd600",
+            ],
+            'fill-opacity': .7
+        },
+        "source-layer": "apur_building",
+    };
+
+    apur_building_line = {
+        "id": "apur_building_line",
+        "type": "line",
+        "source": 'apur_building',
+        'paint': {
+            'line-color': '#000',
+            "line-width": 2,
+            'line-opacity': .8
+        },
+        "source-layer": "apur_building",
+    };
+
+	apur_building_label = {
+		id: "apur_building_label",
+		type: "symbol",
+		source: "apur_building",
+		minzoom: 18,
+		layout: {
+			"text-field": ["get", "value"],
+			"text-size": 14,
+			'symbol-placement': "point",
+			'symbol-spacing': 10000,
+			"text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+		},
+        "source-layer": "apur_building",
+	};
+
+    apur_building_extrusion = {
+        "id": "apur_building_extrusion",
+        "type": "fill-extrusion",
+        "source": 'apur_building',
+        'paint': {
+            'fill-extrusion-color': [
+                "interpolate",
+                ["linear"],
+                // Default to 0 if value is null
+                ['number', ["get", "value"], 0],
+                0,
+                "#aaa",
+                1800,
+                "#dd2c00",
+                2010,
+                "#ffd600",
+            ],
+            'fill-extrusion-height': ["get", "extrude"],
+            'fill-extrusion-opacity': .7
+        },
+        "source-layer": "apur_building",
+    };
+
+    // Snippet to find the first 'symbol' layer
+    var layers = map.getStyle().layers;
+    var firstSymbolId;
+    for (var i = 0; i < layers.length; i++) {
+        if (layers[i].type === 'symbol') {
+            firstSymbolId = layers[i].id;
+            break;
+        }
+    };
+
+	if({{show_extrusion}} === true) {
+        map.addLayer(apur_building_extrusion);
+    }
+    else if({{show_color}} === true) {
+        map.addLayer(apur_building_color, firstSymbolId); // place the layer right before the first symbol layer
+    } else {
+        map.addLayer(apur_building, firstSymbolId); // place the layer right before the first symbol layer
+    };
+
+    if({{show_line}} === true) {
+        map.addLayer(apur_building_line, firstSymbolId); // place the layer right before the first symbol layer
+    };
+    if({{show_label}} === true) {
+        map.addLayer(apur_building_label, firstSymbolId); // place the layer right before the first symbol layer
+    };
+    
+
+    map.addLayer({
+        "id": "home",
+        "type": "circle",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [{
+                "type": "Feature",
+                    "geometry": {
+                    "type": "Point",
+                    "coordinates": [2.336275,48.872311]
+                    }
+                }]
+            }
+        },
+        'paint': {
+            'circle-radius': {
+                'base': 8,
+                'stops': [[12, 8], [22, 400]]
+            },
+            'circle-color': 'red',
+        }
+    });
+});
+</script>
+</body>
+</html>

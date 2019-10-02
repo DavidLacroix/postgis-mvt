@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean all
 
-ENV WORKDIR /srv/tile
+ENV WORKDIR /srv/webapp
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 ADD . .

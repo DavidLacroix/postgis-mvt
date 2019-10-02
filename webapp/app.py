@@ -38,6 +38,22 @@ def map_geojson():
     return render_template('map_geojson.html', token=MAPBOX_TOKEN)
 
 
+@app.route("/map_apur")
+def map_apur():
+    show_color = 'true' if request.args.get('show_color') == 'true' else 'false'
+    show_line = 'true' if request.args.get('show_line') == 'true' else 'false'
+    show_label = 'true' if request.args.get('show_label') == 'true' else 'false'
+    show_extrusion = 'true' if request.args.get('show_extrusion') == 'true' else 'false'
+    return render_template(
+		'map_apur.html', 
+		token=MAPBOX_TOKEN,
+		show_color=show_color,
+		show_line=show_line,
+		show_label=show_label,
+		show_extrusion=show_extrusion,
+	)
+
+
 @app.route('/<string:layer>/<int:z>/<int:x>/<int:y>', methods=['GET'])
 def generic_mvt(layer, z, x, y):
     srid = int(request.args.get('srid', 4326))
@@ -52,11 +68,13 @@ def _load_tile(layer_name, x, y, z, srid=4326):
     tile = None
 
     # Generic query to select data from postgres
+	# Each table has to contain columns: 'id', 'value', 'extrude', 'geom'
     query = '''
         SELECT ST_AsMVT(tile, %(layer_name)s, 4096, 'mvt_geom') AS mvt
         FROM (
             SELECT id,
                 value,
+				extrude,
                 ST_AsMVTGeom(
                     -- Geometry from table
                     ST_Transform(t.geom, 3857),
@@ -96,8 +114,7 @@ def _load_tile(layer_name, x, y, z, srid=4326):
         'ymin': ymin,
         'xmax': xmax,
         'ymax': ymax,
-        'srid_bbox': srid,
-        'srid_geom': 3857
+        'srid_bbox': srid
     }
 
     with psycopg2.connect(**DB_PARAMETERS) as connection:
