@@ -57,20 +57,23 @@ def map_apur():
 @app.route('/<string:layer>/<int:z>/<int:x>/<int:y>', methods=['GET'])
 def generic_mvt(layer, z, x, y):
     srid = int(request.args.get('srid', 4326))
-    tile = _load_tile(layer, x, y, z, srid=srid)
+    extent = int(request.args.get('extent', 4096))
+    buffer = int(request.args.get('buffer', 256))
+    clip = bool(request.args.get('clip', True))
+    tile = _load_tile(layer, x, y, z, extent=extent, srid=srid)
     response = make_response(tile)
     response.headers.add('Content-Type', 'application/octet-stream')
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
-def _load_tile(layer_name, x, y, z, srid=4326):
+def _load_tile(layer_name, x, y, z, extent=4096, buffer=256, clip=True, srid=4326):
     tile = None
 
     # Generic query to select data from postgres
 	# Each table has to contain columns: 'id', 'value', 'extrude', 'geom'
     query = '''
-        SELECT ST_AsMVT(tile, %(layer_name)s, 4096, 'mvt_geom') AS mvt
+        SELECT ST_AsMVT(tile, %(layer_name)s, %(extent)s, 'mvt_geom') AS mvt
         FROM (
             SELECT id,
                 value,
@@ -86,11 +89,11 @@ def _load_tile(layer_name, x, y, z, srid=4326):
                         ST_Transform(ST_SetSrid(ST_MakePoint(%(xmax)s, %(ymax)s), 4326), 3857)
                     ),
                     -- Extent
-                    4096,
+                    %(extent)s,
                     -- Buffer
-                    256,
+                    %(buffer)s,
                     -- Clip geom
-                    TRUE
+                    %(clip)s
                 ) AS mvt_geom
             FROM {schema}.{table_name} t
             WHERE
@@ -114,6 +117,9 @@ def _load_tile(layer_name, x, y, z, srid=4326):
         'ymin': ymin,
         'xmax': xmax,
         'ymax': ymax,
+        'extent': extent,
+        'buffer': buffer,
+        'clip': clip,
         'srid_bbox': srid
     }
 
