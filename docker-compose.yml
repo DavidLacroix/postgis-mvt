@@ -27,7 +27,7 @@ services:
     env_file: .env
     networks:
       - global
-  tile-demo-data:
+  webapp-demo-data:
     container_name: webapp-demo-data-master
     build: ./webapp/demo-data
     image: webapp-demo-data-master
