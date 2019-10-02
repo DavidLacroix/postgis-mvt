@@ -315,27 +315,51 @@
                       </code></pre>
                     </section>
                 </section>
-                <section data-background-iframe=http://localhost:8001/map_empty data-background-interactive>
-                    <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
-                      <h3 style="color: #000">add custom tile layer</h3>
-                      <pre><code data-trim data-noescape class="hljs">
+                <section>
+                    <section data-background-iframe=http://localhost:8001/map_empty data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 100%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">pick your layer</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape class="sql">
+                               View "mvt.apur_building"
+ Column  |            Type             | Collation | Nullable | Default | Storage | Description 
+---------+-----------------------------+-----------+----------+---------+---------+-------------
+ id      | integer                     |           |          |         | plain   | 
+ value   | integer                     |           |          |         | plain   | 
+ extrude | integer                     |           |          |         | plain   | 
+ geom    | geometry(MultiPolygon,4326) |           |          |         | main    | 
+
+View definition:
+ SELECT apur_building_raw.ogc_fid AS id,
+     (regexp_match(apur_building_raw.c_perconst, '[0-9]{4}'))[1]::integer AS value,
+     apur_building_raw.h_med::integer AS extrude,
+     apur_building_raw.wkb_geometry AS geom
+ FROM apur_building_raw;
+     
+                          </code></pre>
+                        </div>
+                    </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">best served hot</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape class="hljs">
                           map.addLayer({
-                            "id": "my-layer",
+                            "id": "apur_building",
                             "type": "fill",
                             "source": {
                               "type": "vector",
-                              "tiles": ["http://tile-server/my-layer/{z}/{x}/{y}"],
-                              "minzoom": 10,
+                              "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}"],
+                              "minzoom": 11,
                               "maxzoom": 21
                             },
-                            "source-layer": "my-layer",
+                            "source-layer": "apur_building",
                             'paint': {
-                              'fill-color': '#088',
-                              'fill-opacity': 0.8
+                              'fill-color': "#ffab40",
+                              'fill-opacity': 0.7
                             },
                           });
-                      </code></pre>
-                    </div>
+                          </code></pre>
+                        </div>
+                    </section>
                 </section>
 
 
