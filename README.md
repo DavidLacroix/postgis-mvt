@@ -13,7 +13,7 @@ Then:
 
 ### Starting services
 ```sh
-sudo docker-compose up -b
+sudo docker-compose up -d
 ```
 
 ### Processing insee data
