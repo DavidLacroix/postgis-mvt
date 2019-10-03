@@ -31,7 +31,7 @@
                 <section style="text-align: left;">
                     <h1>Welcome.</h1>
                     <hr>
-                    <p >
+                    <p>
                         </br>
                         <small><strong>I'm David Lacroix,</strong></small></br>
                         <small>Geo data engineer <a href="https://www.meilleursagents.com/">@MeilleursAgents</a></small></br>
@@ -167,7 +167,7 @@
                         <p>
                             your web application is your tile server
                         </p>
-                       <small>alternatively see <a href="https://github.com/Oslandia/postile">postile</a></small>
+                       <small>alternatively see <a href="https://martin.urbica.co/">martin</a></small>
                     </section>
                     <section>
                       <h3>#madewithmapbox</h3>
@@ -177,22 +177,22 @@
                 </section>
                 <section>
                      <h3>try it out</h3>
-                     <p><pre class="bash" style="text-align: center;"><code>sudo docker-compose up -d</code></pre></p>
+                     <hr>
+                     <p><pre style="text-align: center;font-size: 100%;"><code class="Shell Session">$ sudo docker-compose up -d</code></pre></p>
                      <p><small><a href="https://github.com/DavidLacroix/postgis-mvt">https://github.com/DavidLacroix/postgis-mvt</a></small></p>
                 </section>
                 <section>
                     <section data-background-iframe=http://localhost:8001/map_empty data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                             <h3 style="color: #000">a map speaks louder than words</h3>
-                            This is our webapp served by the Flask server:
-                            <a>http://localhost:8001/map_empty</a>
+                            <pre style="text-align: center; font-size: 70%;"><code class="bash">http://localhost:8001/map_empty</code></pre>
                         </div>
                     </section>
 
                     <section data-background-iframe=http://localhost:8001/map_geojson data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                             <h3 style="color: #000">geojson is trivial</h3>
-                            <pre><code data-trim data-noescape class="hljs">
+                            <pre><code data-trim data-noescape data-line-numbers class="hljs">
                                 map.addLayer({
                                   "id": "haussmann",
                                   "type": "fill",
@@ -274,7 +274,7 @@
                     </section>
                     <section>
                       <h3>from tile to ground coordinates</h3>
-                      <img src="resource/tiletoenv.png" width="600"/></br>
+                      <img src="resource/zoom4.png" width="400"/></br>
                       <small>Read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-tile.html">Paul Ramsey</a></small>
                     </section>
                     <section>
@@ -330,9 +330,10 @@ View definition:
                         </div>
                     </section>
                     <section data-background-iframe=http://localhost:8001/map_apur data-background-interactive>
-                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                           <h3 style="color: #000">best served hot</h3>
-                          <pre><code style="overflow: hidden;" data-trim data-noescape class="hljs">
+                          <pre style="text-align: center; font-size: 60%;"><code class="Shell Session">http://localhost:8001/map_apur</code></pre>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers class="hljs">
                           map.addLayer({
                             "id": "apur_building",
                             "type": "fill",
@@ -351,8 +352,55 @@ View definition:
                           </code></pre>
                         </div>
                     </section>
-                </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur?show_color=true data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">data driven styles</h3>
+                          <pre style="text-align: center; font-size: 60%;"><code class="Shell Session">http://localhost:8001/map_apur?show_color=true</code></pre>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers class="hljs">
+                          'paint': {
+                              'fill-color': [
+                                  "interpolate",
+                                  ["linear"],
+                                  // Default to 0 if value is null
+                                  ['number', ["get", "value"], 0],
+                                  0,
+                                  "#aaa",
+                                  1800,
+                                  "#dd2c00",
+                                  2010,
+                                  "#ffd600",
+                              ],
+                              'fill-opacity': .7
+                          }
+                          </code></pre>
+                        </div>
+                    </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur?show_color=true&show_line=true data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">reusing the data-source</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers="1-8,13" class="hljs">
+                          // Separating data source to render the same data with different style 
+                          data_source = {
+                              "type": "vector",
+                              "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}?srid=4326"],
+                              "minzoom": 12,
+                              "maxzoom": 21
+                          }
+                          map.addSource('apur_building', data_source);
 
+                          apur_building_line = {
+                              "id": "apur_building_line",
+                              "type": "line",
+                              "source": 'apur_building',
+                              'paint': {
+                          </code></pre>
+                        </div>
+                    </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur?show_color=true&show_line=true&show_label=true data-background-interactive>
+                    </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur?show_extrusion=true data-background-interactive>
+                    </section>
+                </section>
 
             </div>
         </div>
