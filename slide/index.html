@@ -142,9 +142,9 @@
                     <section>
                         <h3>a calf on steroid</h3>
                         <ul>
-                            <li>2.4.0: Introduction of <a href="https://postgis.net/docs/ST_AsMVT.html">ST_AsMVT()</a></li>
-                            <li>2.5.0: Parallel implementation</li>
-                            <li>3.0.0: Performance boost + <a href="https://postgis.net/docs/manual-dev/ST_TileEnvelope.html">ST_TileEnvelope()</a></li>
+                            <li>2.4.0: introduction of <a href="https://postgis.net/docs/ST_AsMVT.html">ST_AsMVT()</a></li>
+                            <li>2.5.0: parallel implementation</li>
+                            <li>3.0.0: performance boost + <a href="https://postgis.net/docs/manual-dev/ST_TileEnvelope.html">ST_TileEnvelope()</a></li>
                         </ul>
                         <p>
                            <small>Read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-mvt.html">Paul Ramsey</a></small>
@@ -191,7 +191,7 @@
 
                     <section data-background-iframe=http://localhost:8001/map_geojson data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
-                            <h3 style="color: #000">geojson data is trivial</h3>
+                            <h3 style="color: #000">geojson is trivial</h3>
                             <pre><code data-trim data-noescape class="hljs">
                                 map.addLayer({
                                   "id": "haussmann",
@@ -211,7 +211,7 @@
                     </section>
                     <section data-background-iframe=http://localhost:8001/map_empty?debug=true data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
-                            <h3 style="color: #000">tiles a little less</h3>
+                            <h3 style="color: #000">tiles are trickier</h3>
                             <pre><code data-trim data-noescape class="python">
                                 http://localhost:8001/my-layer/{z}/{x}/{y}
                                 # z: zoom level (0-22)
@@ -223,8 +223,8 @@
                 </section>
                 <section>
                     <section>
-                        <h3>flask: serving tiles</h3>
-                        <pre><code style="overflow: hidden;" data-trim data-noescape class="python" data-line-numbers="5-11">
+                        <h3>flask &#8614; serving tiles</h3>
+                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape class="python" data-line-numbers="5-11">
                         @app.route("/map_geojson")
                         def map_geojson():
                             return render_template('map_geojson.html', token=MAPBOX_TOKEN)
@@ -242,9 +242,8 @@
                         </code></pre>
                     </section>
                     <section>
-                        <h3>flask: requesting tile</h3>
-                        <pre><code style="overflow: hidden;" data-trim data-noescape class="stretch python">
-                        <small>
+                        <h3>flask &#8614; requesting tile</h3>
+                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape data-line-numbers class="stretch python">
                         def _load_tile(layer_name, x, y, z, srid=4326):
                             tile = None
 
@@ -256,13 +255,9 @@
                             )
 
                             xmin, ymin, xmax, ymax = _tms2bbox(x, y, z)
-
                             query_parameters = {
                                 'layer_name': layer_name,
-                                'xmin': xmin,
-                                'ymin': ymin,
-                                'xmax': xmax,
-                                'ymax': ymax,
+                                'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax,
                                 'srid_bbox': srid
                             }
 
@@ -275,7 +270,6 @@
 
                             return tile
 
-                        </small>
                         </code></pre>
                     </section>
                     <section>
@@ -284,9 +278,8 @@
                       <small>Read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-tile.html">Paul Ramsey</a></small>
                     </section>
                     <section>
-                      <h3>postgis: building tile</h3>
-                      <pre><code style="overflow: hidden;" data-trim data-noescape class="stretch sql">
-                      <small>
+                      <h3>postgis &#8614; creating tile</h3>
+                      <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape data-line-numbers class="stretch sql">
                       SELECT ST_AsMVT(tile, %(layer_name)s, 4096, 'mvt_geom') AS mvt
                       FROM (
                         SELECT id,
@@ -310,8 +303,6 @@
                             ST_Transform(ST_SetSrid(ST_MakePoint(%(xmax)s, %(ymax)s), 4326), %(srid_bbox)s)
                           ) && t.geom
                       ) AS tile
-
-                      </small>
                       </code></pre>
                     </section>
                 </section>

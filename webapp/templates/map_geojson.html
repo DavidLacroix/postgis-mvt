@@ -38,31 +38,6 @@ map.on('load', function () {
            'fill-outline-color': '#eee' 
         }
     });
-
-    map.addLayer({
-        "id": "home",
-        "type": "circle",
-        "source": {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [{
-                "type": "Feature",
-                    "geometry": {
-                    "type": "Point",
-                    "coordinates": [2.336275,48.872311]
-                    }
-                }]
-            }
-        },
-        'paint': {
-            'circle-radius': {
-                'base': 8,
-                'stops': [[12, 8], [22, 400]]
-            },
-            'circle-color': 'red',
-        }
-    });
 });
 </script>
 </body>
