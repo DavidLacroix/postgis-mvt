@@ -192,20 +192,22 @@
                     <section data-background-iframe=http://localhost:8001/map_geojson data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                             <h3 style="color: #000">geojson is trivial</h3>
-                            <pre><code data-trim data-noescape data-line-numbers class="hljs">
-                                map.addLayer({
-                                  "id": "haussmann",
-                                  "type": "fill",
-                                  "source": {
-                                    "type": "geojson",
-                                    // path to geojson (text, file, url...)
-                                    "data": "static/resource/haussmann.geojson"
-                                  },
-                                  'paint': {
-                                    'fill-color': '#088',
-                                    'fill-opacity': 0.8
-                                  }
-                                });
+                            <pre><code data-trim data-noescape data-line-numbers class="js">
+                            map.on('load', function () {
+                              map.addLayer({
+                                "id": "haussmann",
+                                "type": "fill",
+                                "source": {
+                                  "type": "geojson",
+                                  // path to geojson (text, file, url...)
+                                  "data": "static/resource/haussmann.geojson"
+                                },
+                                "paint": {
+                                  "fill-color": "#088",
+                                  "fill-opacity": 0.8
+                                }
+                              });
+                            });
                             </code></pre>
                         </div>
                     </section>
@@ -224,7 +226,7 @@
                 <section>
                     <section>
                         <h3>flask &#8614; serving tiles</h3>
-                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape class="python" data-line-numbers="5-11">
+                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape class="python" data-line-numbers="5-12">
                         @app.route("/map_geojson")
                         def map_geojson():
                             return render_template('map_geojson.html', token=MAPBOX_TOKEN)
@@ -236,6 +238,7 @@
                             response = make_response(tile)
                             response.headers.add('Content-Type', 'application/octet-stream')
                             response.headers.add('Access-Control-Allow-Origin', '*')
+                            return response
 
                         def _load_tile(layer_name, x, y, z, srid=4326):
                             tile = None
@@ -243,9 +246,11 @@
                     </section>
                     <section>
                         <h3>flask &#8614; loading tile</h3>
-                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape data-line-numbers class="stretch python">
+                        <pre><code style="font-size: 70%; line-height: 1.3; overflow: hidden;" data-trim data-noescape data-line-numbers="1,4,20-21,25" class="stretch python">
                         def _load_tile(layer_name, x, y, z, srid=4326):
                             tile = None
+
+                            xmin, ymin, xmax, ymax = _tms2bbox(x, y, z)
 
                             query = '''
                                 ...
@@ -253,8 +258,6 @@
                                 schema=TILE_SCHEMA,
                                 table_name=layer_name,
                             )
-
-                            xmin, ymin, xmax, ymax = _tms2bbox(x, y, z)
                             query_parameters = {
                                 'layer_name': layer_name,
                                 'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax,
@@ -344,9 +347,9 @@ View definition:
                               "maxzoom": 21
                             },
                             "source-layer": "apur_building",
-                            'paint': {
-                              'fill-color': "#ffab40",
-                              'fill-opacity': 0.7
+                            "paint": {
+                              "fill-color": "#ffab40",
+                              "fill-opacity": 0.7
                             },
                           });
                           </code></pre>
@@ -357,21 +360,20 @@ View definition:
                           <h3 style="color: #000">data driven styles</h3>
                           <pre style="text-align: center; font-size: 60%;"><code class="Shell Session">http://localhost:8001/map_apur?show_color=true</code></pre>
                           <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers class="hljs">
-                          'paint': {
-                              'fill-color': [
-                                  "interpolate",
-                                  ["linear"],
-                                  // Default to 0 if value is null
-                                  ['number', ["get", "value"], 0],
-                                  0,
-                                  "#aaa",
-                                  1800,
-                                  "#dd2c00",
-                                  2010,
-                                  "#ffd600",
-                              ],
-                              'fill-opacity': .7
-                          }
+                          {"paint": {
+                            "fill-color": [
+                              "interpolate",
+                              ["linear"],
+                              ["number", ["get", "value"], 0],
+                              0,
+                              "#aaa",
+                              1800,
+                              "#dd2c00",
+                              2010,
+                              "#ffd600",
+                            ],
+                            "fill-opacity": .7
+                          }}
                           </code></pre>
                         </div>
                     </section>
@@ -381,24 +383,100 @@ View definition:
                           <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers="1-8,13" class="hljs">
                           // Separating data source to render the same data with different style 
                           data_source = {
-                              "type": "vector",
-                              "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}?srid=4326"],
-                              "minzoom": 12,
-                              "maxzoom": 21
+                            "type": "vector",
+                            "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}?srid=4326"],
+                            "minzoom": 12,
+                            "maxzoom": 21
                           }
                           map.addSource('apur_building', data_source);
 
                           apur_building_line = {
-                              "id": "apur_building_line",
-                              "type": "line",
-                              "source": 'apur_building',
-                              'paint': {
+                            "id": "apur_building_line",
+                            "type": "line",
+                            "source": 'apur_building',
+                            "paint": {
                           </code></pre>
                         </div>
                     </section>
                     <section data-background-iframe=http://localhost:8001/map_apur?show_color=true&show_line=true&show_label=true data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">labelling entities</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers="3,7-11" class="hljs">
+                          map.addLayer({
+                            "id": "apur_building_label",
+                            "type": "symbol",
+                            "source": "apur_building",
+                            "source-layer": "apur_building",
+                            "minzoom": 18,
+                            "layout": {
+                              "text-field": ["get", "value"],
+                              "text-size": 14,
+                              "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                            },
+                          });
+                          </code></pre>
+                        </div>
                     </section>
                     <section data-background-iframe=http://localhost:8001/map_apur?show_extrusion=true data-background-interactive>
+                    </section>
+                </section>
+                <section>
+                    <section data-background-iframe=http://localhost:8001/map_apur_interaction data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">handling interactions</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers="1,9-13" class="hljs">
+                          map.on("mousemove", 'apur_building', function(e){
+                            map.getCanvas().style.cursor = 'pointer';
+                          
+                            if (e.features.length > 0) {
+                              idDisplay.textContent = e.features[0].properties.id;
+                              valueDisplay.textContent = e.features[0].properties.value;
+                              extrusionDisplay.textContent = e.features[0].properties.extrude;
+                          
+                              hoveredStateId = e.features[0].id;
+                              // set the hover attribute to true
+                              map.setFeatureState(
+                                {source: 'apur_building', id: hoveredStateId, 'sourceLayer': 'apur_building'},
+                                {hover: true}
+                              );
+                            }
+                          });
+                          </code></pre>
+                        </div>
+                    </section>
+                    <section data-background-iframe=http://localhost:8001/map_apur_interaction data-background-interactive>
+                        <div style="border:4px solid #222; position: absolute; width: 67%; left: 0; background-color: rgba(255, 255, 255, 0.9); color: #000; padding: 10px; font-size: 30px; text-align: center;">
+                          <h3 style="color: #000">displaying interactions</h3>
+                          <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers="4-7" class="hljs">
+                          {"paint": {
+                            "fill-outline-color": "#000099",
+                            "fill-color": "#000099",
+                            "fill-opacity": [
+                            "case", ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0
+                            ]
+                          }}
+                          </code></pre>
+                          <pre style="text-align: center; font-size: 48%;"><code style="overflow: hidden;color: #F11;" class="bash">Error: The feature id parameter must be provided and non-negative.</code></pre>
+                        </div>
+                    </section>
+                    <section>
+                      <h3>the FeatureID issue</h3>
+                      <img src="resource/mapbox_feature_id.png" width="800"/><br/>
+                      <small>Refer to mapbox <a href="https://docs.mapbox.com/help/tutorials/create-interactive-hover-effects-with-mapbox-gl-js/">hover tutorial</a></small>
+                    </section>
+                    <section>
+                      <h4>fixed in postgis 3</h4>
+                      <small><a href="https://trac.osgeo.org/postgis/ticket/4128">https://trac.osgeo.org/postgis/ticket/4128</a></small>
+                      <hr>
+                      <h4>rebuild mapbox-gl-js</h4>
+                      <small><a href="https://github.com/mapbox/vector-tile-js/blob/master/lib/vectortilefeature.js#L19">https://github.com/mapbox/vector-tile-js/blob/master/lib/vectortilefeature.js#L19</a></small>
+                      <pre><code style="overflow: hidden;" data-trim data-noescape data-line-numbers class="hljs">
+                      if ('id' in this.properties) {
+                        this.id = this.properties.id;
+                      } 
+                      </code></pre>
                     </section>
                 </section>
 

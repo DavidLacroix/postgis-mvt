@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Display a map with a custom style</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+
+<!-- https://docs.mapbox.com/help/tutorials/create-interactive-hover-effects-with-mapbox-gl-js/ -->
+<div id='map'></div>
+<div class='object_info' style="position: absolute;
+  font-family: sans-serif;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 5px;
+  width: 30%;
+  border: 2px solid black;
+  font-size: 14px;
+  color: #222;
+  background-color: #fff;
+  border-radius: 3px;">
+  <div><strong>id:</strong> <span id='id'></span></div>
+  <div><strong>value:</strong> <span id='value'></span></div>
+  <div><strong>extrusion:</strong> <span id='extrusion'></span></div>
+</div>
+
+<script>
+mapboxgl.accessToken = '{{token}}';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [2.335451,48.872204],
+    zoom: 18,
+    pitch: 0,
+    maxTileCacheSize: 0,
+});
+
+let hoveredStateId = null;
+var idDisplay = document.getElementById('id');
+var valueDisplay = document.getElementById('value');
+var extrusionDisplay = document.getElementById('extrusion');
+
+map.on('load', function () {
+
+    // Separating data source to render the same data with different style 
+    data_source = {
+        "type": "vector",
+        "tiles": ["http://localhost:8001/apur_building/{z}/{x}/{y}?srid=4326"],
+        "minzoom": 12,
+        "maxzoom": 21
+    }
+    map.addSource('apur_building', data_source);
+
+    apur_building = {
+        "id": "apur_building",
+        "type": "fill",
+        "source": 'apur_building',
+        'paint': {
+            'fill-color': [
+                "interpolate",
+                ["linear"],
+                // Default to 0 if value is null
+                ['number', ["get", "value"], 0],
+                0,
+                "#aaa",
+                1800,
+                "#dd2c00",
+                2010,
+                "#ffd600",
+            ],
+            'fill-opacity': .7
+        },
+        "source-layer": "apur_building",
+    };
+
+    apur_building_line = {
+        "id": "apur_building_line",
+        "type": "line",
+        "source": 'apur_building',
+        'paint': {
+            'line-color': '#000',
+            "line-width": 2,
+            'line-opacity': .8
+        },
+        "source-layer": "apur_building",
+    };
+
+    apur_building_hover = {
+        "id": "hover",
+        "source": "apur_building",
+        "source-layer": "apur_building",
+        "type": "fill",
+        "paint": {
+            "fill-outline-color": "#000099",
+            "fill-color": "#000099",
+			"fill-opacity": [
+			  "case", ["boolean", ["feature-state", "hover"], false],
+			  1,
+			  0
+            ]
+        }
+    };
+
+
+    // Snippet to find the first 'symbol' layer
+    var layers = map.getStyle().layers;
+    var firstSymbolId;
+    for (var i = 0; i < layers.length; i++) {
+        if (layers[i].type === 'symbol') {
+            firstSymbolId = layers[i].id;
+            break;
+        }
+    };
+
+    map.addLayer(apur_building, firstSymbolId); // place the layer right before the first symbol layer
+    map.addLayer(apur_building_line, firstSymbolId); // place the layer right before the first symbol layer
+    map.addLayer(apur_building_hover, firstSymbolId); // place the layer right before the first symbol layer
+});
+
+map.on("mousemove", 'apur_building', function(e){
+    map.getCanvas().style.cursor = 'pointer';
+
+    if (e.features.length > 0) {
+      idDisplay.textContent = e.features[0].properties.id;
+      valueDisplay.textContent = e.features[0].properties.value;
+      extrusionDisplay.textContent = e.features[0].properties.extrude;
+
+      hoveredStateId = e.features[0].id;
+      // set the hover attribute to true
+      map.setFeatureState(
+        {source: 'apur_building', 'sourceLayer': 'apur_building', id: hoveredStateId},
+        {hover: true}
+      );
+    }
+});
+
+map.on("mouseleave", 'apur_building', function(e){
+    // Reset the cursor style
+    map.getCanvas().style.cursor = '';
+
+    // Remove the information from the previously hovered feature from the sidebar
+    idDisplay.textContent = '';
+    valueDisplay.textContent = '';
+    extrusionDisplay.textContent = '';
+
+    // set the hover attribute to false
+    map.setFeatureState(
+      {source: 'apur_building', 'sourceLayer': 'apur_building', id: hoveredStateId},
+      {hover: false}
+    );
+    hoveredStateId = null;
+});
+</script>
+</body>
+</html>
