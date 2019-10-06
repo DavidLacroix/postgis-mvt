@@ -13,4 +13,4 @@ WORKDIR $WORKDIR
 ADD . .
 RUN pip install --upgrade pip -r requirements.txt
 
-ENTRYPOINT gunicorn -b 0.0.0.0:8001 app:app
+ENTRYPOINT gunicorn --workers=8 -b 0.0.0.0:8001 app:app

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Display a map with a custom style</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<div id='map'></div>
+<div class='object_info' style="position: absolute;
+  font-family: sans-serif;
+  margin-left: 40%;
+  bottom: 50px;
+  padding: 5px;
+  width: 20%;
+  border: 2px solid black;
+  font-size: 14px;
+  text-align: center;
+  color: #222;
+  background-color: #fff;
+  border-radius: 3px;">
+  <div><strong>source feature count: </strong><span id='total'></span></div>
+</div>
+<script>
+var totalDisplay = document.getElementById('total');
+
+mapboxgl.accessToken = '{{token}}';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [2.344633,48.856311],
+    zoom: 12,
+    pitch: 60,
+});
+
+function compute_total() {
+	var features = map.querySourceFeatures('carreaux_raw_men', {
+		sourceLayer: 'carreaux_raw_men',
+	});
+	if (features) {
+		total = features.length
+		totalDisplay.textContent = total;
+	}
+};
+
+window.setInterval(function(){
+	compute_total();
+}, 1000);
+
+// every time the rotation animation is complete, 
+// fire it up again!
+map.on('moveend', function(data) {
+    rotateBy(map.getBearing());
+});
+
+// start the rotation cycle as soon as the style loads
+map.on('style.load', function(){
+    rotateBy(map.getBearing());
+});
+
+// add 90 degrees to the current bearing
+function rotateBy(current) {
+    var rotateNumber = current;
+    map.rotateTo(rotateNumber + 90, {duration: 20000, easing: function(t) {return t;}});
+}
+
+
+map.on('load', function () {
+    map.addLayer({
+        "id": "carreaux_raw_men",
+        "type": "fill-extrusion",
+        "source": {
+            "type": "vector",
+            "tiles": ["http://localhost:8001/carreaux_raw_men/{z}/{x}/{y}?srid=2154"],
+            "minzoom": 8,
+            "maxzoom": 21
+        },
+        'paint': {
+            'fill-extrusion-color': [
+                "interpolate",
+                ["linear"],
+                ["get", "value"],
+                0,
+                "#383CFF",
+                1000,
+                "#F726BB"
+            ],
+            'fill-extrusion-height': ["get", "value"],
+            'fill-extrusion-opacity': .8
+        },
+        "source-layer": "carreaux_raw_men",
+    });
+});
+
+map.addControl(new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: {
+        color: 'orange'
+    }
+}));
+
+</script>
+</body>
+</html>

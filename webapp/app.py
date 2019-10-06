@@ -59,6 +59,11 @@ def map_apur_interaction():
     return render_template('map_apur_interaction.html', token=MAPBOX_TOKEN)
 
 
+@app.route("/map_insee")
+def map_insee():
+    return render_template('map_insee.html', token=MAPBOX_TOKEN)
+
+
 @app.route('/<string:layer>/<int:z>/<int:x>/<int:y>', methods=['GET'])
 def generic_mvt(layer, z, x, y):
     srid = int(request.args.get('srid', 4326))

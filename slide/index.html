@@ -53,14 +53,14 @@
                             fetch &#8614; process &#8614; <span class="fragment highlight-red">share</span> &#8614; <span class="fragment highlight-red">display</span>
                         </textarea>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                            ### The constraints
-                            * volume
-                            * coverage
-                            * flexibility
-                            * simplicity
-                        </textarea>
+                    <section>
+                        <h3>the constraints</h3>
+                        <ul>
+                            <li class="fragment">volume</li>
+                            <li class="fragment">coverage</li>
+                            <li class="fragment">flexibility</li>
+                            <li class="fragment">simplicity</li>
+                        </ul>
                     </section>
                 </section>
                 <section>
@@ -137,7 +137,7 @@
                     <section>
                       <h3>your only friend</h3>
                       <img src="resource/postgis.png" width="300"/></br>
-                      <small>Find more information in that great <a href="https://gisforthought.com/projects/postgis_tutorial/introduction.html">tutorial</a></small>
+                      <small>find more information in that great <a href="https://gisforthought.com/projects/postgis_tutorial/introduction.html">tutorial</a></small>
                     </section>
                     <section>
                         <h3>a calf on steroid</h3>
@@ -147,7 +147,7 @@
                             <li>3.0.0: performance boost + <a href="https://postgis.net/docs/manual-dev/ST_TileEnvelope.html">ST_TileEnvelope()</a></li>
                         </ul>
                         <p>
-                           <small>Read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-mvt.html">Paul Ramsey</a></small>
+                           <small>read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-mvt.html">Paul Ramsey</a></small>
                        </p>
                     </section>
                     <section>
@@ -278,7 +278,7 @@
                     <section>
                       <h3>from tile to ground coordinates</h3>
                       <img src="resource/zoom4.png" width="400"/></br>
-                      <small>Read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-tile.html">Paul Ramsey</a></small>
+                      <small>read more from <a href="http://blog.cleverelephant.ca/2019/08/postgis-3-tile.html">Paul Ramsey</a></small>
                     </section>
                     <section>
                       <h3>postgis &#8614; creating tile</h3>
@@ -313,6 +313,7 @@
                     <section data-background-iframe=http://localhost:8001/map_empty data-background-interactive>
                         <div style="border:4px solid #222; position: absolute; width: 100%; left: 0; background-color: rgba(255, 255, 255, 0.8); color: #000; padding: 10px; font-size: 30px; text-align: center;">
                           <h3 style="color: #000">pick your layer</h3>
+                          <pre style="font-size:60%"><code style="overflow: hidden;" class="stretch Shell Session">$ psql -h localhost -p 5555 -d postgres -U postgres -c "\d+ mvt.*"</code></pre>
                           <pre><code style="overflow: hidden;" data-trim data-noescape class="sql">
                                View "mvt.apur_building"
  Column  |            Type             | Collation | Nullable | Default | Storage | Description 
@@ -464,7 +465,7 @@ View definition:
                     <section>
                       <h3>the FeatureID issue</h3>
                       <img src="resource/mapbox_feature_id.png" width="800"/><br/>
-                      <small>Refer to mapbox <a href="https://docs.mapbox.com/help/tutorials/create-interactive-hover-effects-with-mapbox-gl-js/">hover tutorial</a></small>
+                      <small>refer to mapbox <a href="https://docs.mapbox.com/help/tutorials/create-interactive-hover-effects-with-mapbox-gl-js/">hover tutorial</a></small>
                     </section>
                     <section>
                       <h4>fixed in postgis 3</h4>
@@ -479,7 +480,35 @@ View definition:
                       </code></pre>
                     </section>
                 </section>
-
+                <section>
+                  <h3>Debugging tile</h3>
+                  <pre style="font-size:55%"><code style="overflow: hidden;" class="stretch Shell Session">$ npm install -g @mapbox/vt2geojson</code></pre>
+                  <pre style="font-size:55%"><code style="overflow: hidden;" class="stretch Shell Session">$ vt2geojson http://localhost:8001/apur_building/{z}/{x}/{y}</code></pre>
+                  <p><small><a href="https://github.com/mapbox/vt2geojson">https://github.com/mapbox/vt2geojson</a></small></p>
+                </section>
+                <section>
+                  <h3>Scaling 🚀</h3>
+                    <ul>
+                        <li>caching tiles: NGINX, CDN</li>
+                        <li>postgres master-slave replication</li>
+                        <li>asynchrone tileserver: <a href="https://github.com/Oslandia/postile">postile</a>, <a href="https://github.com/urbica/martin">martin</a></li>
+                    </ul>
+                    <p><small>read more <a href="https://carto.com/blog/MVT-mapnik-vs-postgis/">mapnik vs postgis</a></small></p>
+                </section>
+                <section>
+                     <h3>leaving the demo</h3>
+                     <hr>
+                     <pre><code class="stretch Shell Session">$ sudo docker build -t data-master data-processing/</code></pre>
+                     <pre><code class="stretch Shell Session">$ sudo docker run \
+    --link=postgres-master \
+    --network=global-network \
+    --env-file .env \
+    -it data-master</code></pre>
+                     <small><a href="https://github.com/DavidLacroix/postgis-mvt">https://github.com/DavidLacroix/postgis-mvt</a></small></p>
+                </section>
+                <section data-background-iframe=http://localhost:8001/map_insee data-background-interactive>
+					<h1 class="fragment" style="text-shadow: 0 0 0.3em #EEE">QUESTIONS ?</h1>
+                </section>
             </div>
         </div>
 

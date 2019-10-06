@@ -40,7 +40,7 @@ psql -v ON_ERROR_STOP=1 -P pager=off -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_
     CREATE OR REPLACE VIEW mvt.carreaux_raw_men AS
     SELECT ogc_fid as id,
         men::int AS value,
-        NULL AS extrude,
+        men::int AS extrude,
         wkb_geometry as geom
     from public.carreaux_raw;
 """
