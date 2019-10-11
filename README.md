@@ -18,7 +18,7 @@ Then:
 ```sh
 sudo docker-compose up -d
 ```
-Sudoing docker is not secure but it quicker to setup. To setup your docker properly read [this](https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user)
+Sudoing docker is not secure but is faster. To setup your docker properly read [this](https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 #### Postgres
 ```sh
