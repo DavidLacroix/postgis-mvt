@@ -1,8 +1,7 @@
 ## Postgis-mvt
 Presenting the stack Postgis/Flask/Mapboxgl to display geographic data using vector tiles.
 
-Presentation is hosted here: https://davidlacroix.github.io/postgis-mvt/slide/index.html
-The presentation won't be complete without the small infrastructure that comes with it. Follow the instructions to get the whole thing working properly.
+Presentation is hosted here: https://davidlacroix.github.io/postgis-mvt/slide/index.html. The presentation won't be complete without the small infrastructure that comes with it. Follow the instructions to get the whole thing working properly.
 
 ## Prerequisite
 * [Docker](https://www.docker.com/get-started)
