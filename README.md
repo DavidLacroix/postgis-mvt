@@ -1,6 +1,9 @@
 ## Postgis-mvt
 Presenting the stack Postgis/Flask/Mapboxgl to display geographic data using vector tiles.
 
+Presentation is hosted here: https://davidlacroix.github.io/postgis-mvt/slide/index.html
+The presentation won't be complete without the small infrastructure that comes with it. Follow the instructions to get the whole thing working properly.
+
 ## Prerequisite
 * [Docker](https://www.docker.com/get-started)
 * [Docker compose](https://docs.docker.com/compose/install/)
@@ -16,6 +19,7 @@ Then:
 ```sh
 sudo docker-compose up -d
 ```
+Sudoing docker is not secure but it quicker to setup. To setup your docker properly read [this](https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 #### Postgres
 ```sh
